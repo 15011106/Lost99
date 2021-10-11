@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter // get 함수를 일괄적으로 만들어줍니다.
 @NoArgsConstructor // 기본 생성자를 만들어줍니다.
 @Entity // DB 테이블 역할을 합니다.
-public class user {
+public class User {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
@@ -30,14 +30,14 @@ public class user {
     @Column(nullable = true)
     private Long kakaoId;
 
-    public user(String username, String password, String email) {
+    public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.kakaoId = null;
     }
 
-    public user(String username, String password, String email, Long kakaoId) {
+    public User(String username, String password, String email, Long kakaoId) {
         this.username = username;
         this.password = password;
         this.email = email;
