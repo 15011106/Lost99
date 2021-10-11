@@ -1,6 +1,7 @@
 # Lost-99
 
 참여인원
+
 Front-end : 장원배, 홍유미, 임동건
 
 Back-end : 권민혁, 김가민
