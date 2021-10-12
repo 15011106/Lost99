@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter // get 함수를 일괄적으로 만들어줍니다.
@@ -29,6 +31,9 @@ public class User {
 
     @Column(nullable = true)
     private Long kakaoId;
+
+    @OneToMany(mappedBy = "user")
+    List<Comment> comment = new ArrayList<>();
 
     public User(String username, String password, String email) {
         this.username = username;

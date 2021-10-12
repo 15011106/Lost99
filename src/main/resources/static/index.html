@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title> 테스트 페이지 </title>
+</head>
+<script>
+    function : upload(){
+        const formData = new FormData();
+        const file = document.getElementById("file");
+        formData.append("file", file.files[0]);
+
+        axios.post("upload", formData, {
+            headers: {
+                "Content-Type" : "multipart/form-data"
+            }
+        }).then((response) => {
+            console.log(response)
+            })
+            .catch((error) => {
+                console.error(error)
+                            })
+
+    }
+</script>
+<body>
+<input type="file" name="file">
+<button class = "send-button" onclick="upload()" value="upload">
+</button>
+</body>
+
+</html>

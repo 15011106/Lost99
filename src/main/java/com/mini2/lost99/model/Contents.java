@@ -1,10 +1,13 @@
 package com.mini2.lost99.model;
 
+import com.mini2.lost99.dto.ContentsRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter // get 함수를 일괄적으로 만들어줍니다.
@@ -24,4 +27,17 @@ public class Contents extends Timestamped{
     @Column(nullable = false)
     private String contents;
 
+    @Column(nullable = false)
+    private String imageUrl;
+
+    @OneToMany(mappedBy = "contents",cascade = CascadeType.REMOVE)
+    List<Comment> comment = new ArrayList<>();
+
+
+    public Contents(ContentsRequestDto contentsRequestDto){
+        this.username = contentsRequestDto.getUsername();
+        this.contents = contentsRequestDto.getContents();
+        this.title = contentsRequestDto.getTitle();
+        this.imageUrl = contentsRequestDto.getImageUrl();
+    }
 }
