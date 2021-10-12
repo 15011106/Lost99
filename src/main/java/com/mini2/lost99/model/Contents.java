@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,12 @@ public class Contents extends Timestamped{
 
     @Column(nullable = false)
     private String imageUrl;
+
+    @Column
+    private LocalDateTime createdDate;
+
+    @Column
+    private LocalDateTime updatedDate;
 
     @OneToMany(mappedBy = "contents",cascade = CascadeType.REMOVE)
     List<Comment> comment = new ArrayList<>();

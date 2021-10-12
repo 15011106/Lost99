@@ -15,12 +15,10 @@ import java.util.List;
 @Controller
 public class ContentsController {
     private final ContentsService contentsService;
-    private final ContentsRepository contentsRepository;
 
 
-    public ContentsController( ContentsService contentsService, ContentsRepository contentsRepository){
+    public ContentsController( ContentsService contentsService){
             this.contentsService = contentsService;
-            this.contentsRepository = contentsRepository;
     }
 
     // 게시글 전체 출력
