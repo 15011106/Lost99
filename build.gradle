@@ -19,15 +19,34 @@ repositories {
 }
 
 dependencies {
+    testImplementation 'org.springframework.security:spring-security-test'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    //Json
+    implementation 'org.json:json:20210307'
+    compileOnly "com.fasterxml.jackson.core:jackson-databind:2.9.4"
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.12.3'
+    implementation 'org.jetbrains:annotations:20.1.0'
     // 스프링 시큐리티
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    //bootstrap
+    runtimeOnly 'org.webjars:bootstrap:4.5.0'
+
+    //jwt
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    implementation 'commons-codec:commons-codec:1.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+    compileOnly 'com.auth0:java-jwt:3.13.0'
 }
 
 test {

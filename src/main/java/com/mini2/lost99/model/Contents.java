@@ -29,10 +29,13 @@ public class Contents extends Timestamped{
     private String contents;
 
     @Column(nullable = false)
-    private String imageUrl;
+    private String location;
 
-    @Column
-    private LocalDateTime createdDate;
+    @Column(nullable = false)
+    private String phonenumber;
+
+    @Column(nullable = false)
+    private String imageUrl;
 
     @Column
     private LocalDateTime updatedDate;
@@ -46,5 +49,7 @@ public class Contents extends Timestamped{
         this.contents = contentsRequestDto.getContents();
         this.title = contentsRequestDto.getTitle();
         this.imageUrl = contentsRequestDto.getImageUrl();
+        this.location = contentsRequestDto.getLocation();
+        this.phonenumber = contentsRequestDto.getPhonenumber();
     }
 }

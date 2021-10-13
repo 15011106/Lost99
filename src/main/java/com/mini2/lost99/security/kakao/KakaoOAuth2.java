@@ -1,5 +1,6 @@
 package com.mini2.lost99.security.kakao;
 
+
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -30,7 +31,7 @@ public class KakaoOAuth2 {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("client_id", "83a045702bcb9ef7cfab9e5dd660cbf8");
-        params.add("redirect_uri", "http://115.85.182.57/user/kakao/callback");
+        params.add("redirect_uri", "http://localhost:8080/user/kakao/callback");
         params.add("code", authorizedCode);
 
         // HttpHeader와 HttpBody를 하나의 오브젝트에 담기

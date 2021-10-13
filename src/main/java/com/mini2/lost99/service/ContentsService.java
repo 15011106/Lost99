@@ -42,9 +42,11 @@ public class ContentsService {
         return contentsResponseDtos;
     }
 
-    public void contentsSave(ContentsRequestDto contentsRequestDto) {
+    public Contents contentsSave(ContentsRequestDto contentsRequestDto) {
         Contents contents =new Contents(contentsRequestDto);
         contentsRepository.save(contents);
+
+        return contents;
     }
 
     public void contentsUpdate(Long id, ContentsRequestDto contentsRequestDto) {
