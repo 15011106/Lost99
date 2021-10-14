@@ -27,12 +27,12 @@ public class UserController {
 
 
     // 회원 가입 요청 처리
-    @PostMapping("/user/signup")
+    @PostMapping("/api/signup")
     public void registerUser(@Valid @RequestBody UserRequestDto userRequestDto) {
         userService.registerUser(userRequestDto);
     }
 
-    @PostMapping("/user/login")
+    @PostMapping("/api/login")
     public String login(@RequestBody UserRequestDto requestDto) {
         User user = userRepository.findByUsername(requestDto.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 유저입니다."));
@@ -43,7 +43,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/user/kakao/callback")
+    @GetMapping("/api/kakao/callback")
     public void kakaoLogin(String code) {
         // authorizedCode: 카카오 서버로부터 받은 인가 코드
         userService.kakaoLogin(code);

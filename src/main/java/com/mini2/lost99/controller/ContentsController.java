@@ -31,7 +31,7 @@ public class ContentsController {
     // 게시글 작성
     @ResponseBody
     @PostMapping("/api/contents")
-    public Contents writeContents(@RequestBody ContentsRequestDto contentsRequestDto)
+    public Contents writeContents(@RequestBody ContentsRequestDto contentsRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         Contents contents = contentsService.contentsSave(contentsRequestDto);
         return contents;
