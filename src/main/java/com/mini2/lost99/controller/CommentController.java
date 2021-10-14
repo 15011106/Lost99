@@ -19,7 +19,7 @@ public class CommentController {
     }
 
     // 댓글 불러오기
-    @GetMapping("/api/contents/{id}/comments")
+    @GetMapping("/api/contents/{contentsid}/comments")
     public List<CommentResponseDto> readComments(@PathVariable long id) {
 
         return commentService.getAllComments(id);
