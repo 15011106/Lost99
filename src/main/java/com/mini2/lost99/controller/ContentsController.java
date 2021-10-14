@@ -50,7 +50,6 @@ public class ContentsController {
 
     // 게시글 수정
 
-    @ResponseBody
     @PutMapping("/api/contents/{id}")
     public void editContents(@PathVariable Long id, @RequestBody ContentsRequestDto contentsRequestDto ,@AuthenticationPrincipal UserDetailsImpl userDetails)
     {
@@ -59,7 +58,6 @@ public class ContentsController {
 
     // 게시글 삭제
 
-    @ResponseBody
     @DeleteMapping("/api/contents/{id}")
     public void deleteContents(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails)
     {

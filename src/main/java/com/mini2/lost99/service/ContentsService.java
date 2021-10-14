@@ -6,6 +6,7 @@ import com.mini2.lost99.model.Contents;
 import com.mini2.lost99.repository.ContentsRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,12 +44,14 @@ public class ContentsService {
         return contentsResponseDtos;
     }
 
+    @Transactional
     public Contents contentsSave(ContentsRequestDto contentsRequestDto) {
         Contents contents =new Contents(contentsRequestDto);
         contentsRepository.save(contents);
         return contents;
     }
 
+    @Transactional
     public void contentsUpdate(Long id, ContentsRequestDto contentsRequestDto) {
         Contents contentsUpdate = contentsRepository.getById(id);
 

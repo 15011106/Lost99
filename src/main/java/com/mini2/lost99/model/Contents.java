@@ -1,5 +1,6 @@
 package com.mini2.lost99.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.mini2.lost99.dto.ContentsRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,6 +42,7 @@ public class Contents extends Timestamped{
     private LocalDateTime updatedDate;
 
     @OneToMany(mappedBy = "contents",cascade = CascadeType.REMOVE)
+    @JsonBackReference
     List<Comment> comment = new ArrayList<>();
 
 

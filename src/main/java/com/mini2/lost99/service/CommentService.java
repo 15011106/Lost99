@@ -4,11 +4,11 @@ import com.mini2.lost99.dto.CommentRequestDto;
 import com.mini2.lost99.dto.CommentResponseDto;
 import com.mini2.lost99.model.Comment;
 import com.mini2.lost99.model.Contents;
-import com.mini2.lost99.model.User;
 import com.mini2.lost99.repository.CommentRepository;
 import com.mini2.lost99.repository.ContentsRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,18 +21,18 @@ public class CommentService {
         this.commentRepository = commentRepository;
         this.contentsRepository = contentsRepository;
     }
-
-    public List<CommentResponseDto> getAllComments(long id) {
-        List<Comment> comments = commentRepository.findByidOrderByModifiedAtDesc(id);
+// Id에 해당하는 코멘트 전체 get
+    public List<CommentResponseDto> readComments(long id) {
+        List<Comment> comments = commentRepository.findByContentsIdOrderByModifiedAtDesc(id);
         List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
 
             for (Comment comment : comments) {
                 CommentResponseDto commentResponseDto = new CommentResponseDto(
                         comment.getId(),
+                        comment.getContents(),
                         comment.getComment(),
                         comment.getCreatedAt(),
-                        comment.getModifiedAt(),
-                        comment.getUser().getUsername()
+                        comment.getModifiedAt()
                 );
                 commentResponseDtos.add(commentResponseDto);
             }
@@ -40,20 +40,14 @@ public class CommentService {
             return commentResponseDtos;
     }
 
-    public CommentResponseDto writeComment(CommentRequestDto commentRequestDto, long id, User user) {
+    // 코멘트 작성
+    @Transactional
+    public void writeComment(CommentRequestDto commentRequestDto, long id) {
         Contents contents = contentsRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("게시물이 존재하지 않습니다.")
         );
-        Comment comment = new Comment(commentRequestDto,contents,user);
+        Comment comment = new Comment(commentRequestDto,contents);
         commentRepository.save(comment);
-
-        return new CommentResponseDto(
-                comment.getId(),
-                comment.getComment(),
-                comment.getCreatedAt(),
-                comment.getModifiedAt(),
-                comment.getUser().getUsername()
-        );
     }
 
     public void deleteComment(long commentId) {
