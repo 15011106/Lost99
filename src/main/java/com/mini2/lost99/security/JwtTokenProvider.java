@@ -19,7 +19,7 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    private String secretKey = "lost9919groupprojectzzzzzzzzzzzzzzzzzzzzz";
+    private String secretKey = "lost9919asdasdasdazzzzzzasdasdzzzzzzzzzzzzsasdasd";
 
     // 토큰 유효시간 30분
     private long tokenValidTime = 30 * 60 * 1000L;

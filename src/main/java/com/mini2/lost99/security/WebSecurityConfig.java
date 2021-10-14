@@ -41,19 +41,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // 필터 등록
-        http
-
-                .httpBasic().disable() // REST API만을 고려, 기본 설정 해제
+        http.httpBasic().disable() // REST API만을 고려, 기본 설정 해제
                 .csrf().disable() // csrf 사용 X
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 // 토큰 기반 인증이므로 세션도 사용 X
+
                 .and()
-
                 .authorizeRequests()
-                    .antMatchers("/h2-console/**").permitAll()
-                    .anyRequest().permitAll() // 나머지 요청은 누구나 접근 가능
-                    .and()
+                .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/images/**").permitAll()
+                .antMatchers("/css/**").permitAll()
+                .antMatchers("/user/**").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("/**").permitAll()
+                .antMatchers("/api/**").permitAll()
+                .anyRequest().authenticated()
 
+                .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class);
                 // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다

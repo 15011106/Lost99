@@ -21,8 +21,10 @@ public class ContentsController {
     }
 
     // 게시글 전체 출력
+    @ResponseBody
     @GetMapping("/api/contents")
     public List<ContentsResponseDto> readContents() {
+
         return contentsService.getAllContents();
     }
 
@@ -35,7 +37,20 @@ public class ContentsController {
         return contents;
     }
 
+    // 상세 게시글 출력
+
+    @ResponseBody
+    @GetMapping("/api/contents/{id}")
+    public ContentsResponseDto readContent(@PathVariable Long id) {
+        return contentsService.readContent(id);
+
+    }
+
+    // 게시글 작성
+
     // 게시글 수정
+
+    @ResponseBody
     @PutMapping("/api/contents/{id}")
     public void editContents(@PathVariable Long id, @RequestBody ContentsRequestDto contentsRequestDto ,@AuthenticationPrincipal UserDetailsImpl userDetails)
     {
@@ -43,6 +58,8 @@ public class ContentsController {
     }
 
     // 게시글 삭제
+
+    @ResponseBody
     @DeleteMapping("/api/contents/{id}")
     public void deleteContents(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails)
     {
