@@ -27,7 +27,7 @@ public class CommentService {
 
     public Comment commentSave(Long contentsId, CommentRequestDto commentRequestDto, User user) {
         Contents contents = contentsRepository.findById(contentsId).orElseThrow(
-                () -> new IllegalArgumentException("requested articleId가 DB에 없습니다.")
+                () -> new IllegalArgumentException("requested contentsId가 DB에 없습니다.")
         );
         Comment comment = new Comment(commentRequestDto, user, contents);
         commentRepository.save(comment);
@@ -35,7 +35,9 @@ public class CommentService {
     }
 
     public void commentUpdate(Long id, CommentRequestDto commentRequestDto) {
-        Comment commentUpdate = commentRepository.getById(id);
+        Comment commentUpdate = commentRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("requested commentId가 DB에 없습니다.")
+        );
         commentUpdate.setComment(commentRequestDto.getComment());
         commentRepository.save(commentUpdate);
     }
