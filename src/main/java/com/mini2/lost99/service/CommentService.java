@@ -1,7 +1,6 @@
 package com.mini2.lost99.service;
 
 import com.mini2.lost99.dto.CommentRequestDto;
-import com.mini2.lost99.dto.CommentResponseDto;
 import com.mini2.lost99.model.Comment;
 import com.mini2.lost99.model.Contents;
 import com.mini2.lost99.model.User;
@@ -9,11 +8,11 @@ import com.mini2.lost99.repository.CommentRepository;
 import com.mini2.lost99.repository.ContentsRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CommentService {
+
     private final CommentRepository commentRepository;
     private final ContentsRepository contentsRepository;
 
@@ -22,50 +21,26 @@ public class CommentService {
         this.contentsRepository = contentsRepository;
     }
 
-    public List<CommentResponseDto> getAllComments(long id) {
-        List<Comment> comments = commentRepository.findByidOrderByModifiedAtDesc(id);
-        List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
-
-            for (Comment comment : comments) {
-                CommentResponseDto commentResponseDto = new CommentResponseDto(
-                        comment.getId(),
-                        comment.getComment(),
-                        comment.getCreatedAt(),
-                        comment.getModifiedAt(),
-                        comment.getUser().getUsername()
-                );
-                commentResponseDtos.add(commentResponseDto);
-            }
-
-            return commentResponseDtos;
+    public List<Comment> commentRead(Long contentsId) {
+        return commentRepository.findAllByContentsIdOrderByCreatedAtDesc(contentsId);
     }
 
-    public CommentResponseDto writeComment(CommentRequestDto commentRequestDto, long id, User user) {
-        Contents contents = contentsRepository.findById(id).orElseThrow(
-                ()-> new IllegalArgumentException("게시물이 존재하지 않습니다.")
+    public Comment commentSave(Long contentsId, CommentRequestDto commentRequestDto, User user) {
+        Contents contents = contentsRepository.findById(contentsId).orElseThrow(
+                () -> new IllegalArgumentException("requested articleId가 DB에 없습니다.")
         );
-        Comment comment = new Comment(commentRequestDto,contents,user);
+        Comment comment = new Comment(commentRequestDto, user, contents);
         commentRepository.save(comment);
-
-        return new CommentResponseDto(
-                comment.getId(),
-                comment.getComment(),
-                comment.getCreatedAt(),
-                comment.getModifiedAt(),
-                comment.getUser().getUsername()
-        );
+        return comment;
     }
 
-    public void deleteComment(long commentId) {
-        commentRepository.deleteById(commentId);
+    public void commentUpdate(Long id, CommentRequestDto commentRequestDto) {
+        Comment commentUpdate = commentRepository.getById(id);
+        commentUpdate.setComment(commentRequestDto.getComment());
+        commentRepository.save(commentUpdate);
     }
 
-    public void editComment(CommentRequestDto commentRequestDto, long commentId) {
-
-        Comment comment = commentRepository.findById(commentId).orElseThrow(
-                ()-> new IllegalArgumentException("댓글이 존재하지 않습니다.")
-        );
-        comment.setComment(commentRequestDto.getComment());
-        commentRepository.save(comment);
+    public void commentDelete(Long id) {
+        commentRepository.deleteById(id);
     }
 }
