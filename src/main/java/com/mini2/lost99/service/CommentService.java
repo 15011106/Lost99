@@ -51,11 +51,11 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
-    public void deleteComment(long commentId, User user) {
+    public void deleteComment(long commentId) {
         commentRepository.deleteById(commentId);
     }
 
-    public void editComment(CommentRequestDto commentRequestDto, long commentId, User user) {
+    public void editComment(CommentRequestDto commentRequestDto, long commentId) {
 
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 ()-> new IllegalArgumentException("댓글이 존재하지 않습니다.")

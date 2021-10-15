@@ -37,16 +37,16 @@ public class CommentController {
     //댓글 삭제
     @ResponseBody
     @DeleteMapping("/api/contents/comments/{commentId}")
-    public void deleteComment(@PathVariable long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        commentService.deleteComment(commentId, userDetails.getUser());
+    public void deleteComment(@PathVariable long commentId) {
+        commentService.deleteComment(commentId);
     }
 
 
     //수정 하기
     @ResponseBody
     @PutMapping("/api/contents/comments/{commentId}")
-    public void editComment(@RequestBody CommentRequestDto commentRequestDto ,@PathVariable long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        commentService.editComment(commentRequestDto,commentId, userDetails.getUser());
+    public void editComment(@RequestBody CommentRequestDto commentRequestDto ,@PathVariable long commentId) {
+        commentService.editComment(commentRequestDto,commentId);
 
     }
 }
