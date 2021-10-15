@@ -30,7 +30,7 @@ public class CommentController {
     @PostMapping("/api/contents/{id}/comments")
     public void writeComment(@PathVariable long id, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        commentService.writeComment(commentRequestDto, id);
+        commentService.writeComment(commentRequestDto, id, userDetails.getUser());
 
     }
 
@@ -38,7 +38,7 @@ public class CommentController {
     @ResponseBody
     @DeleteMapping("/api/contents/comments/{commentId}")
     public void deleteComment(@PathVariable long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        commentService.deleteComment(commentId);
+        commentService.deleteComment(commentId, userDetails.getUser());
     }
 
 
@@ -46,7 +46,7 @@ public class CommentController {
     @ResponseBody
     @PutMapping("/api/contents/comments/{commentId}")
     public void editComment(@RequestBody CommentRequestDto commentRequestDto ,@PathVariable long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        commentService.editComment(commentRequestDto,commentId);
+        commentService.editComment(commentRequestDto,commentId, userDetails.getUser());
 
     }
 }
