@@ -22,9 +22,9 @@ public class CommentService {
         this.commentRepository = commentRepository;
         this.contentsRepository = contentsRepository;
     }
-// Id에 해당하는 코멘트 전체 get
-    public List<CommentResponseDto> readComments(long contentsId) {
-        List<Comment> comments = commentRepository.findByContentsIdOrderByModifiedAtDesc(contentsId);
+    // Id에 해당하는 댓글 전체 get
+    public List<CommentResponseDto> readComments(Long id) {
+        List<Comment> comments = commentRepository.findByContentsIdOrderByModifiedAtDesc(id);
         List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
 
             for (Comment comment : comments) {
@@ -41,10 +41,10 @@ public class CommentService {
             return commentResponseDtos;
     }
 
-    // 코멘트 작성
+    // 댓글 작성
     @Transactional
-    public CommentResponseDto writeComment(CommentRequestDto commentRequestDto, long contentsId , User user) {
-        Contents contents = contentsRepository.findById(contentsId).orElseThrow(
+    public CommentResponseDto writeComment(CommentRequestDto commentRequestDto, Long id , User user) {
+        Contents contents = contentsRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("게시물이 존재하지 않습니다.")
         );
         Comment comment = new Comment(commentRequestDto,contents, user);

@@ -18,9 +18,8 @@ public class CommentController {
     }
 
     // 댓글 불러오기
-
     @GetMapping("/api/contents/{id}/comments")
-    public List<CommentResponseDto> readComments(@PathVariable long id) {
+    public List<CommentResponseDto> readComments(@PathVariable Long id) {
 
         return commentService.readComments(id);
     }
@@ -28,7 +27,7 @@ public class CommentController {
     //댓글 작성
 
     @PostMapping("/api/contents/{id}/comments")
-    public CommentResponseDto writeComment(@PathVariable long id, @RequestBody CommentRequestDto commentRequestDto,
+    public CommentResponseDto writeComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto,
                              @AuthenticationPrincipal UserDetailsImpl userDetails) {
         // 로그인 되어 있는 ID
         if (userDetails == null) {
@@ -39,19 +38,17 @@ public class CommentController {
     }
 
     //댓글 삭제
-
     @DeleteMapping("/api/contents/comments/{commentId}")
     public void deleteComment(@PathVariable Long commentId,  @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         if(userDetails==null){
             throw new IllegalArgumentException("로그인을 해야 댓글을 삭제할 수 있습니다.");
         }
-        commentService.deleteComment( commentId, userDetails.getUser());
+        commentService.deleteComment(commentId, userDetails.getUser());
     }
 
 
     //수정 하기
-
     @PutMapping("/api/contents/comments/{commentId}")
     public CommentResponseDto editComment(@RequestBody CommentRequestDto commentRequestDto,
                             @PathVariable Long commentId,

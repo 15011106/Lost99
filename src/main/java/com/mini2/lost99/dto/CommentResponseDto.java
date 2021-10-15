@@ -20,10 +20,6 @@ public class CommentResponseDto {
     private LocalDateTime modifiedAt;
     private String username;
 
-    public CommentResponseDto(Long id, String comment, LocalDateTime createdAt, LocalDateTime modifiedAt, String username) {
-
-    }
-
 
     public CommentResponseDto(Long id, Contents contents, String comment, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.id = id;
