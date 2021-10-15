@@ -7,11 +7,17 @@ import lombok.Setter;
 @Getter
 public class CommentRequestDto {
 
+    private String comment;
+
     public CommentRequestDto(String comment) {
         this.comment = comment;
     }
-    private String comment;
 
-    public CommentRequestDto() {
-    }
+//    public String getContent() {
+//        return this.comment;
+//    }
+//
+//    public void setContent(String comment) {
+//        this.comment = comment;
+//    }
 }
