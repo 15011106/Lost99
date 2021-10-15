@@ -45,11 +45,6 @@ public class Comment extends Timestamped {
         this.user = user;
     }
 
-    public Comment(CommentRequestDto commentRequestDto, Contents contents) {
-        this.comment = commentRequestDto.getComment();
-        this.contents = contents;
-        this.user = null;
-    }
 }
 
 
