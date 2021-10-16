@@ -23,53 +23,52 @@ public class CommentService {
         this.contentsRepository = contentsRepository;
     }
     // Id에 해당하는 댓글 전체 get
-    public List<CommentResponseDto> readComments(Long id) {
-        List<Comment> comments = commentRepository.findByContentsId(id);
+    public List<CommentResponseDto> readComments(Long contentsId) {
+        List<Comment> comments = commentRepository.findByContentsId(contentsId);
         List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
 
-            for (Comment comment : comments) {
-                CommentResponseDto commentResponseDto = new CommentResponseDto(
-                        comment.getId(),
-                        comment.getComment(),
-                        comment.getCreatedAt(),
-                        comment.getModifiedAt(),
-                        comment.getUser().getUsername()
-                );
-                commentResponseDtos.add(commentResponseDto);
-            }
+        for (Comment comment : comments) {
+            CommentResponseDto commentResponseDto = new CommentResponseDto(
+                    comment.getId(),
+                    comment.getComment(),
+                    comment.getCreatedAt(),
+                    comment.getModifiedAt()
+            );
+            commentResponseDtos.add(commentResponseDto);
+        }
 
-            return commentResponseDtos;
+        return commentResponseDtos;
     }
 
     // 댓글 작성
     @Transactional
-    public void writeComment(CommentRequestDto commentRequestDto, Long id, User user) {
-        Contents contents = contentsRepository.findById(id).orElseThrow(
+    public void writeComment(CommentRequestDto commentRequestDto, Long contentsId) {
+        Contents contents = contentsRepository.findById(contentsId).orElseThrow(
                 ()-> new IllegalArgumentException("게시물이 존재하지 않습니다.")
         );
-        Comment comment = new Comment(commentRequestDto,contents, user);
+        Comment comment = new Comment(commentRequestDto,contents);
         commentRepository.save(comment);
 
     }
 
-    public void deleteComment(Long commentId, User user) {
+    public void deleteComment( Long commentId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 ()-> new IllegalArgumentException("게시물이 존재하지 않습니다.")
         );
-        if(!comment.getUser().getId().equals(user.getId())){
-            throw new IllegalArgumentException("로그인 한 사용자와, 댓글 작성자가 다릅니다.");
-        }
+//        if(!comment.getUser().getId().equals(user.getId())){
+//            throw new IllegalArgumentException("로그인 한 사용자와, 댓글 작성자가 다릅니다.");
+//        }
         commentRepository.delete(comment);
     }
 
-    public CommentResponseDto editComment(CommentRequestDto commentRequestDto, Long commentId, User user) {
+    public CommentResponseDto editComment(CommentRequestDto commentRequestDto, Long commentId) {
 
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 ()-> new IllegalArgumentException("댓글이 존재하지 않습니다.")
         );
-        if(!comment.getUser().getId().equals(user.getId())){
-            throw new IllegalArgumentException("로그인 한 사용자와, 댓글 작성자가 다릅니다.");
-        }
+//        if(!comment.getUser().getId().equals(user.getId())){
+//            throw new IllegalArgumentException("로그인 한 사용자와, 댓글 작성자가 다릅니다.");
+//        }
         comment.setComment(commentRequestDto.getComment());
         commentRepository.save(comment);
 

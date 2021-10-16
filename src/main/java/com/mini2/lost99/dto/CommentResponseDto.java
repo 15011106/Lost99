@@ -28,4 +28,12 @@ public class CommentResponseDto {
         this.username = username;
     }
 
+    public CommentResponseDto(Long id, String comment, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+        this.id = id;
+        this.comment = comment;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
+
+    }
+
 }
