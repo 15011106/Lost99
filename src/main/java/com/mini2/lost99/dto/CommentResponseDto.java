@@ -15,19 +15,10 @@ public class CommentResponseDto {
 
     private Long id;
     private String comment;
-    private Contents contents;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private String username;
 
-
-    public CommentResponseDto(Long id, Contents contents, String comment, LocalDateTime createdAt, LocalDateTime modifiedAt) {
-        this.id = id;
-        this.contents=contents;
-        this.comment = comment;
-        this.createdAt = createdAt;
-        this.modifiedAt = modifiedAt;
-    }
 
     public CommentResponseDto(Long id, String comment, LocalDateTime createdAt, LocalDateTime modifiedAt, String username) {
         this.id = id;
@@ -36,4 +27,5 @@ public class CommentResponseDto {
         this.modifiedAt = modifiedAt;
         this.username = username;
     }
+
 }

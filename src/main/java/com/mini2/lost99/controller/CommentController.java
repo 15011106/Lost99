@@ -27,8 +27,7 @@ public class CommentController {
     //댓글 작성
 
     @PostMapping("/api/contents/{id}/comments")
-    public void writeComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto,
-                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public void writeComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         // 로그인 되어 있는 ID
         if (userDetails == null) {
             throw new IllegalArgumentException("로그인을 해야 댓글을 작성할 수 있습니다.");
@@ -51,9 +50,7 @@ public class CommentController {
     //수정 하기
     @PutMapping("/api/contents/comments/{commentId}")
     public void editComment(@RequestBody CommentRequestDto commentRequestDto,
-                            @PathVariable Long commentId,
-                            @AuthenticationPrincipal UserDetailsImpl userDetails
-                            ) {
+                            @PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if(userDetails==null){
             throw new IllegalArgumentException("로그인을 해야 댓글을 수정할 수 있습니다.");
         }

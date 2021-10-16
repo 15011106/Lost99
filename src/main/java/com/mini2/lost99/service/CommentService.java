@@ -24,16 +24,16 @@ public class CommentService {
     }
     // Id에 해당하는 댓글 전체 get
     public List<CommentResponseDto> readComments(Long id) {
-        List<Comment> comments = commentRepository.findByContentsIdOrderByModifiedAtDesc(id);
+        List<Comment> comments = commentRepository.findByContentsId(id);
         List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
 
             for (Comment comment : comments) {
                 CommentResponseDto commentResponseDto = new CommentResponseDto(
                         comment.getId(),
-                        comment.getContents(),
                         comment.getComment(),
                         comment.getCreatedAt(),
-                        comment.getModifiedAt()
+                        comment.getModifiedAt(),
+                        comment.getUser().getUsername()
                 );
                 commentResponseDtos.add(commentResponseDto);
             }
@@ -47,7 +47,7 @@ public class CommentService {
         Contents contents = contentsRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("게시물이 존재하지 않습니다.")
         );
-        Comment comment = new Comment(commentRequestDto,contents);
+        Comment comment = new Comment(commentRequestDto,contents, user);
         commentRepository.save(comment);
 
     }
