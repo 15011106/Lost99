@@ -1,7 +1,7 @@
 package com.mini2.lost99.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mini2.lost99.dto.CommentRequestDto;
-import com.mini2.lost99.dto.ContentsRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,12 +28,14 @@ public class Comment extends Timestamped {
     private LocalDateTime updatedDate;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JsonManagedReference
+    @JoinColumn(name = "contents_id" ,nullable = false)
     private Contents contents;
+
 
 
     public Comment(CommentRequestDto commentRequestDto, Contents contents, User user){
@@ -41,6 +43,13 @@ public class Comment extends Timestamped {
         this.contents = contents;
         this.user = user;
     }
+
+    public Comment(CommentRequestDto commentRequestDto, Contents contents) {
+        this.comment = commentRequestDto.getComment();
+        this.contents = contents;
+        this.user = null;
+    }
+
 }
 
 

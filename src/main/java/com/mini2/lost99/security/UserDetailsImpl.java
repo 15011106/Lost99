@@ -1,7 +1,5 @@
 package com.mini2.lost99.security;
 
-
-
 import com.mini2.lost99.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
