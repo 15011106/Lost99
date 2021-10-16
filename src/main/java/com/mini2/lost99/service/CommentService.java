@@ -43,20 +43,13 @@ public class CommentService {
 
     // 댓글 작성
     @Transactional
-    public CommentResponseDto writeComment(CommentRequestDto commentRequestDto, Long id , User user) {
+    public void writeComment(CommentRequestDto commentRequestDto, Long id, User user) {
         Contents contents = contentsRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("게시물이 존재하지 않습니다.")
         );
-        Comment comment = new Comment(commentRequestDto,contents, user);
+        Comment comment = new Comment(commentRequestDto,contents);
         commentRepository.save(comment);
 
-        return new CommentResponseDto(
-                comment.getId(),
-                comment.getComment(),
-                comment.getCreatedAt(),
-                comment.getModifiedAt(),
-                comment.getUser().getUsername()
-        );
     }
 
     public void deleteComment(Long commentId, User user) {

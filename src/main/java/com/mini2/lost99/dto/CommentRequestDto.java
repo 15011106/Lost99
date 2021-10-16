@@ -5,12 +5,16 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class CommentRequestDto {
 
+public class CommentRequestDto {
     private String comment;
 
     public CommentRequestDto(String comment) {
         this.comment = comment;
+    }
+
+    public CommentRequestDto() {
+
     }
 
 //    public String getContent() {
