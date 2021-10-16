@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 
 @Service
@@ -22,9 +22,7 @@ public class ContentsService {
     public List<ContentsResponseDto> getAllContents() {
         List<Contents> contents = contentsRepository.findAllByOrderByCreatedAtDesc();
         List<ContentsResponseDto> contentsResponseDtos = new ArrayList<>();
-        //계층 간 작업 시 Dto를 사용하는 습관을 갖는게 중요함.
-        //Article 테이블(DB)에는 User의 정보 전부(id, username, password, email 등)가 연결되어있음.
-        //내가 진짜 필요한 정보만 담아서 활용하는 것. User 전체가 아닌 User의 username만 뽑아서 쓰는 것이 효율적임.
+
         for(Contents content : contents){
             ContentsResponseDto contentsResponseDto = new ContentsResponseDto(
                     content.getId(),
@@ -54,7 +52,6 @@ public class ContentsService {
     @Transactional
     public void contentsUpdate(Long id, ContentsRequestDto contentsRequestDto) {
         Contents contentsUpdate = contentsRepository.getById(id);
-
         contentsUpdate.setTitle(contentsRequestDto.getTitle());
         contentsUpdate.setContents(contentsRequestDto.getContents());
         contentsUpdate.setLocation(contentsRequestDto.getLocation());
@@ -78,9 +75,9 @@ public class ContentsService {
                 content.getTitle(),
                 content.getUsername(),
                 content.getPhonenumber(),
+                content.getContents(),
                 content.getImageUrl(),
                 content.getLocation(),
-                content.getContents(),
                 content.getCreatedAt(),
                 content.getModifiedAt()
         );

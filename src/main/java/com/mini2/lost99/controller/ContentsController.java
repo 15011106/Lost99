@@ -33,6 +33,11 @@ public class ContentsController {
     @PostMapping("/api/contents")
     public Contents writeContents(@RequestBody ContentsRequestDto contentsRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
+        System.out.println(userDetails);
+        if (userDetails == null) {
+            throw new IllegalArgumentException("로그인을 해야 게시글을 작성하실 수 있습니다.");
+        }
+
         Contents contents = contentsService.contentsSave(contentsRequestDto);
         return contents;
     }
@@ -46,13 +51,14 @@ public class ContentsController {
 
     }
 
-    // 게시글 작성
-
     // 게시글 수정
 
     @PutMapping("/api/contents/{id}")
     public void editContents(@PathVariable Long id, @RequestBody ContentsRequestDto contentsRequestDto ,@AuthenticationPrincipal UserDetailsImpl userDetails)
     {
+        if (userDetails == null) {
+            throw new IllegalArgumentException("게시글을 수정하실 권한이 없습니다.");
+        }
         contentsService.contentsUpdate(id,contentsRequestDto);
     }
 
@@ -61,6 +67,9 @@ public class ContentsController {
     @DeleteMapping("/api/contents/{id}")
     public void deleteContents(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails)
     {
+        if (userDetails == null) {
+            throw new IllegalArgumentException("게시글을 삭제하실 권한이 없습니다.");
+        }
         contentsService.contentsDelete(id);
     }
 

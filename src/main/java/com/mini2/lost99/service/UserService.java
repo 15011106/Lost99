@@ -3,6 +3,7 @@ package com.mini2.lost99.service;
 import com.mini2.lost99.dto.UserRequestDto;
 import com.mini2.lost99.model.User;
 import com.mini2.lost99.repository.UserRepository;
+import com.mini2.lost99.security.JwtTokenProvider;
 import com.mini2.lost99.security.kakao.KakaoOAuth2;
 import com.mini2.lost99.security.kakao.KakaoUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -19,6 +23,7 @@ import java.util.Optional;
 public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
     private final KakaoOAuth2 kakaoOAuth2;
 
@@ -26,9 +31,10 @@ public class UserService {
     private static final String ADMIN_TOKEN = "AAABnv/xRVklrnYxKZ0aHgTBcXukeZygoC";
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, KakaoOAuth2 kakaoOAuth2, AuthenticationManager authenticationManager) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider, KakaoOAuth2 kakaoOAuth2, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtTokenProvider = jwtTokenProvider;
         this.authenticationManager = authenticationManager;
         this.kakaoOAuth2 = kakaoOAuth2;
     }
@@ -69,19 +75,25 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void kakaoLogin(String authorizedCode) {
+    public Map<String, String> kakaoLogin(String authorizedCode) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
         KakaoUserInfo userInfo = kakaoOAuth2.getUserInfo(authorizedCode);
         Long kakaoId = userInfo.getId();
         String nickname = userInfo.getNickname();
         String email = userInfo.getEmail();
 
+        // 카카오 로그인 토큰생성
+        Map<String, String> jwtLogin = new HashMap<>();
+        String token = jwtTokenProvider.createToken(nickname);
+        jwtLogin.put("token", token);
+        jwtLogin.put("username", nickname);
 
         // 우리 DB 에서 회원 Id 와 패스워드
         // 회원 Id = 카카오 nickname
         String username = nickname;
         // 패스워드 = 카카오 Id + ADMIN TOKEN
         String password = kakaoId + ADMIN_TOKEN;
+
 
         // DB 에 중복된 Kakao Id 가 있는지 확인
         User kakaoUser = userRepository.findByKakaoId(kakaoId)
@@ -94,11 +106,14 @@ public class UserService {
 
             kakaoUser = new User(nickname, encodedPassword, email, kakaoId);
             userRepository.save(kakaoUser);
+
         }
 
         // 로그인 처리
         Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return jwtLogin;
     }
 }

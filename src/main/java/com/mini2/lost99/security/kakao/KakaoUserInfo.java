@@ -1,5 +1,4 @@
 package com.mini2.lost99.security.kakao;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -5,11 +5,12 @@ import com.mini2.lost99.dto.CommentResponseDto;
 import com.mini2.lost99.security.UserDetailsImpl;
 import com.mini2.lost99.service.CommentService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
-@Controller
+
+@RestController
 public class CommentController {
 
     public CommentService commentService;
@@ -18,35 +19,37 @@ public class CommentController {
     }
 
     // 댓글 불러오기
-    @ResponseBody
     @GetMapping("/api/contents/{id}/comments")
-    public List<CommentResponseDto> readComments(@PathVariable long id) {
+    public List<CommentResponseDto> readComments(@PathVariable Long id) {
 
         return commentService.readComments(id);
     }
 
     //댓글 작성
-    @ResponseBody
+
     @PostMapping("/api/contents/{id}/comments")
-    public void writeComment(@PathVariable long id, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails)
-    {
-        commentService.writeComment(commentRequestDto, id);
+    public void writeComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        // 로그인 되어 있는 ID
+        commentService.writeComment(commentRequestDto, id, userDetails.getUser());
 
     }
 
     //댓글 삭제
-    @ResponseBody
     @DeleteMapping("/api/contents/comments/{commentId}")
-    public void deleteComment(@PathVariable long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        commentService.deleteComment(commentId);
+    public void deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        commentService.deleteComment(commentId, userDetails.getUser());
     }
 
 
     //수정 하기
-    @ResponseBody
     @PutMapping("/api/contents/comments/{commentId}")
-    public void editComment(@RequestBody CommentRequestDto commentRequestDto ,@PathVariable long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        commentService.editComment(commentRequestDto,commentId);
+    public void editComment(@RequestBody CommentRequestDto commentRequestDto,
+                            @PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if(userDetails==null){
+            throw new IllegalArgumentException("로그인을 해야 댓글을 수정할 수 있습니다.");
+        }
+        commentService.editComment(commentRequestDto, commentId, userDetails.getUser());
 
     }
 }
