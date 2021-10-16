@@ -5,51 +5,46 @@ import com.mini2.lost99.dto.CommentResponseDto;
 import com.mini2.lost99.security.UserDetailsImpl;
 import com.mini2.lost99.service.CommentService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
-@RestController
+@Service
 public class CommentController {
 
     public CommentService commentService;
+
     public CommentController(CommentService commentService) {
         this.commentService = commentService;
     }
 
     // 댓글 불러오기
     @GetMapping("/api/contents/{id}/comments")
-    public List<CommentResponseDto> readComments(@PathVariable Long id) {
+    public List<CommentResponseDto> readComments(@PathVariable long id) {
 
-        return commentService.readComments(id);
+        return commentService.getAllComments(id);
     }
 
     //댓글 작성
-
     @PostMapping("/api/contents/{id}/comments")
-    public void writeComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        // 로그인 되어 있는 ID
-        commentService.writeComment(commentRequestDto, id, userDetails.getUser());
+    public CommentResponseDto writeComment(@PathVariable long id, CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentService.writeComment(commentRequestDto, id, userDetails.getUser());
 
     }
 
     //댓글 삭제
-    @DeleteMapping("/api/contents/comments/{commentId}")
-    public void deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    @DeleteMapping("/api/contents/{id}/comments/{commentId}")
+    public void deleteComment(@PathVariable long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        commentService.deleteComment(commentId, userDetails.getUser());
+        commentService.deleteComment(commentId);
     }
 
 
-    //수정 하기
-    @PutMapping("/api/contents/comments/{commentId}")
-    public void editComment(@RequestBody CommentRequestDto commentRequestDto,
-                            @PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        if(userDetails==null){
-            throw new IllegalArgumentException("로그인을 해야 댓글을 수정할 수 있습니다.");
-        }
-        commentService.editComment(commentRequestDto, commentId, userDetails.getUser());
+    @PutMapping("/api/contents/{id}/comments/{commentId}")
+    public void editComment(@RequestBody CommentRequestDto commentRequestDto ,@PathVariable long id, @PathVariable long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        commentService.editComment(commentRequestDto,commentId);
 
     }
 }

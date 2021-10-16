@@ -1,30 +1,24 @@
 package com.mini2.lost99.dto;
 
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.mini2.lost99.model.Contents;
+import com.mini2.lost99.model.User;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@NoArgsConstructor
 public class CommentResponseDto {
 
-    private Long id;
-    private String comment;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
-    private String username;
+    private final Long id;
+    private final String comment;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime modifiedAt;
+    private final String commentUsername;
 
-
-    public CommentResponseDto(Long id, String comment, LocalDateTime createdAt, LocalDateTime modifiedAt, String username) {
+    public CommentResponseDto(Long id, String comment, LocalDateTime createdAt, LocalDateTime modifiedAt, String commentUsername) {
         this.id = id;
         this.comment = comment;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
-        this.username = username;
+        this.commentUsername = commentUsername;
     }
 
 }

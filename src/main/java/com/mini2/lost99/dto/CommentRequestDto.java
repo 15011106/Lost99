@@ -1,15 +1,12 @@
 package com.mini2.lost99.dto;
 
+import com.mini2.lost99.model.Contents;
+import com.mini2.lost99.model.User;
 import lombok.Getter;
-import lombok.Setter;
 
-@Setter
 @Getter
 public class CommentRequestDto {
-
+    private User user;
     private String comment;
-
-    public CommentRequestDto(String comment) {
-        this.comment = comment;
-    }
+    private Contents contents;
 }

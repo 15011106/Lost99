@@ -1,6 +1,5 @@
 package com.mini2.lost99.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.mini2.lost99.dto.ContentsRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,19 +29,15 @@ public class Contents extends Timestamped{
     private String contents;
 
     @Column(nullable = false)
-    private String location;
-
-    @Column(nullable = false)
-    private String phonenumber;
-
-    @Column(nullable = false)
     private String imageUrl;
+
+    @Column
+    private LocalDateTime createdDate;
 
     @Column
     private LocalDateTime updatedDate;
 
     @OneToMany(mappedBy = "contents",cascade = CascadeType.REMOVE)
-    @JsonBackReference
     List<Comment> comment = new ArrayList<>();
 
 
@@ -51,7 +46,5 @@ public class Contents extends Timestamped{
         this.contents = contentsRequestDto.getContents();
         this.title = contentsRequestDto.getTitle();
         this.imageUrl = contentsRequestDto.getImageUrl();
-        this.location = contentsRequestDto.getLocation();
-        this.phonenumber = contentsRequestDto.getPhonenumber();
     }
 }
