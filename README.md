@@ -9,7 +9,7 @@ Back-end : 권민혁, 김가민
 개발기간 : 2021.10.11 ~ 2021.10.16
 
 개발언어:
--   Frontend : HTML / CSS/ JavaScript / React
+-   Frontend : React
 -   Backend : Spring
 
 
@@ -31,19 +31,17 @@ Back-end : 권민혁, 김가민
 
 ## 🎥시연 영상
 
- [Click]()
+ [Click](https://www.youtube.com/watch?v=qvm-y-gtcnk)
  
  
 
 ## 🔎What I learned
 
-1. ?
+1. JWT 토큰을 이용한 로그인 (OAuth + JWT)
 
-2. ?
+2. 프론트와 백엔드 서버 배포를 통한 협업 절차
 
-3. ?
-
-4. ?
+3. 서로 다른 Origin의 API 요청에 따른 CORS 설정
 
 
 ## 🛠주요 기능 구현
